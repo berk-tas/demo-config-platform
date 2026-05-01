@@ -1,0 +1,113 @@
+{
+  "$id": "https://demo.local/config/1.0.0/assets.json",
+  "title": "assets",
+  "version": "1.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "depositSuspended": {
+        "type": "boolean"
+      },
+      "withdrawSuspended": {
+        "type": "boolean"
+      },
+      "symbol": {
+        "type": "string",
+        "minLength": 1
+      },
+      "name": {
+        "type": "string",
+        "minLength": 1
+      },
+      "icon": {
+        "type": "string",
+        "minLength": 1
+      },
+      "coinGeckoId": {
+        "type": "string",
+        "minLength": 1
+      },
+      "minimumAmountToSweep": {
+        "type": "string",
+        "minLength": 1
+      },
+      "gasLimit": {
+        "type": "string",
+        "minLength": 1
+      },
+      "networks": {
+        "type": "object",
+        "propertyNames": {
+          "type": "string",
+          "minLength": 1
+        },
+        "additionalProperties": {
+          "type": "object",
+          "properties": {
+            "chain": {
+              "type": "string",
+              "minLength": 1
+            },
+            "contractAddress": {
+              "type": "string",
+              "minLength": 1
+            },
+            "decimals": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            }
+          },
+          "required": [
+            "chain",
+            "decimals"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "isNative": {
+        "type": "boolean"
+      },
+      "assetAddress": {
+        "type": "string"
+      },
+      "assetType": {
+        "type": "string",
+        "minLength": 1
+      },
+      "decimals": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "displayDecimals": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 9007199254740991
+      },
+      "isHidden": {
+        "type": "boolean"
+      }
+    },
+    "required": [
+      "depositSuspended",
+      "withdrawSuspended",
+      "symbol",
+      "name",
+      "icon",
+      "coinGeckoId",
+      "minimumAmountToSweep",
+      "gasLimit",
+      "networks",
+      "isNative",
+      "assetAddress",
+      "assetType",
+      "decimals",
+      "displayDecimals",
+      "isHidden"
+    ],
+    "additionalProperties": false
+  }
+}

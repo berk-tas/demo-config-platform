@@ -1,0 +1,29 @@
+{
+  "$id": "https://demo.local/config/1.0.0/workspaceSettings.json",
+  "title": "workspaceSettings",
+  "version": "1.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "workspaceSettings": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
+      },
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "enableExternalValidators": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "workspaceSettings"
+  ],
+  "additionalProperties": false
+}

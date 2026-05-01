@@ -1,0 +1,52 @@
+[
+  {
+    "depositSuspended": false,
+    "withdrawSuspended": false,
+    "symbol": "BTC",
+    "name": "Bitcoin",
+    "icon": "https://assets.demo.local/icons/btc.svg",
+    "coinGeckoId": "bitcoin",
+    "minimumAmountToSweep": "0.0005",
+    "gasLimit": "0",
+    "networks": {
+      "bitcoin": {
+        "chain": "bitcoin",
+        "decimals": 8
+      }
+    },
+    "isNative": true,
+    "assetAddress": "",
+    "assetType": "native",
+    "decimals": 8,
+    "displayDecimals": 8,
+    "isHidden": false
+  },
+  {
+    "depositSuspended": false,
+    "withdrawSuspended": false,
+    "symbol": "USDT",
+    "name": "Tether USD",
+    "icon": "https://assets.demo.local/icons/usdt.svg",
+    "coinGeckoId": "tether",
+    "minimumAmountToSweep": "10",
+    "gasLimit": "100000",
+    "networks": {
+      "ethereum": {
+        "chain": "ethereum",
+        "contractAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+        "decimals": 6
+      },
+      "tron": {
+        "chain": "tron",
+        "contractAddress": "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t",
+        "decimals": 6
+      }
+    },
+    "isNative": false,
+    "assetAddress": "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    "assetType": "erc20",
+    "decimals": 6,
+    "displayDecimals": 2,
+    "isHidden": false
+  }
+]

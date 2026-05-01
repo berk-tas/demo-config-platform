@@ -1,0 +1,36 @@
+{
+  "$id": "https://demo.local/config/1.0.0/manifest.json",
+  "title": "manifest",
+  "version": "1.0.0",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "contractVersion": {
+      "type": "string",
+      "const": "1.0.0"
+    },
+    "publishedAt": {
+      "type": "string"
+    },
+    "gitCommit": {
+      "type": "string"
+    },
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "assets",
+          "workspaceSettings"
+        ]
+      }
+    }
+  },
+  "required": [
+    "contractVersion",
+    "publishedAt",
+    "gitCommit",
+    "keys"
+  ],
+  "additionalProperties": false
+}

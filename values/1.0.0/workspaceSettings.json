@@ -1,0 +1,6 @@
+{
+  "workspaceSettings": {
+    "default": { "enableExternalValidators": true },
+    "partner-a": { "enableExternalValidators": false }
+  }
+}
