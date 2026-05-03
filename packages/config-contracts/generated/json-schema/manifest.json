@@ -16,13 +16,12 @@
       "type": "string"
     },
     "keys": {
+      "minItems": 1,
       "type": "array",
       "items": {
         "type": "string",
-        "enum": [
-          "assets",
-          "workspaceSettings"
-        ]
+        "minLength": 1,
+        "pattern": "^[A-Za-z0-9_-]+$"
       }
     }
   },
