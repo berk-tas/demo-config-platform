@@ -1,6 +1,6 @@
 [
   {
-    "depositSuspended": false,
+    "depositSuspended": true,
     "withdrawSuspended": false,
     "symbol": "BTC",
     "name": "Bitcoin",
