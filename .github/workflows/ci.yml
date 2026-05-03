@@ -1,31 +1,79 @@
 name: CI
 
 on:
-  push:
-    branches: [master, main]
   pull_request:
+  push:
+    branches: [main, staging]
 
 jobs:
-  build:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-
       - name: Enable corepack
         run: corepack enable
-
       - name: Install
         run: yarn install --immutable
-
       - name: Build
         run: yarn build
-
       - name: Generate
         run: yarn generate
-
       - name: Validate config values
         run: yarn validate
+
+  publish-staging:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+    runs-on: ubuntu-latest
+    environment: staging
+    env:
+      CONSUL_HTTP_ADDR: ${{ secrets.STAGING_CONSUL_HTTP_ADDR }}
+      CONSUL_HTTP_TOKEN: ${{ secrets.STAGING_CONSUL_HTTP_TOKEN }}
+      GIT_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install
+        run: yarn install --immutable
+      - name: Build
+        run: yarn build
+      - name: Generate
+        run: yarn generate
+      - name: Validate config values
+        run: yarn validate
+      - name: Publish to staging Consul
+        run: yarn publish:consul
+
+  publish-prod:
+    needs: validate
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment: production
+    env:
+      CONSUL_HTTP_ADDR: ${{ secrets.PROD_CONSUL_HTTP_ADDR }}
+      CONSUL_HTTP_TOKEN: ${{ secrets.PROD_CONSUL_HTTP_TOKEN }}
+      GIT_COMMIT: ${{ github.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Enable corepack
+        run: corepack enable
+      - name: Install
+        run: yarn install --immutable
+      - name: Build
+        run: yarn build
+      - name: Generate
+        run: yarn generate
+      - name: Validate config values
+        run: yarn validate
+      - name: Publish to prod Consul
+        run: yarn publish:consul

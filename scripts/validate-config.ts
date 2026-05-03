@@ -1,24 +1,14 @@
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
 import { ZodError } from "zod";
-import {
-  ConfigBundleSchema,
-  CONTRACT_VERSION,
-} from "@demo/config-contracts";
-
-function readJson(path: string): unknown {
-  return JSON.parse(readFileSync(path, "utf8"));
-}
+import { CONTRACT_VERSION } from "@demo/config-contracts";
+import { loadAndValidate } from "./lib/load-and-validate";
 
 function main() {
-  const dir = join(process.cwd(), "values", CONTRACT_VERSION);
-  console.log(`validating ${dir} against contract v${CONTRACT_VERSION}`);
-
-  const assets = readJson(join(dir, "assets.json"));
-  const workspaceSettings = readJson(join(dir, "workspaceSettings.json"));
-
   try {
-    ConfigBundleSchema.parse({ assets, workspaceSettings });
+    const { keys, valuesDir } = loadAndValidate();
+    console.log(
+      `validated ${valuesDir} against contract v${CONTRACT_VERSION}`,
+    );
+    console.log(`keys: ${keys.join(", ")}`);
     console.log("ok");
   } catch (err) {
     if (err instanceof ZodError) {
@@ -27,9 +17,10 @@ function main() {
         const path = issue.path.length ? issue.path.join(".") : "<root>";
         console.error(`  ${path}: ${issue.message}`);
       }
-      process.exit(1);
+    } else {
+      console.error(`validation failed: ${(err as Error).message}`);
     }
-    throw err;
+    process.exit(1);
   }
 }
 

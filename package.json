@@ -9,11 +9,13 @@
   "scripts": {
     "build": "yarn workspaces foreach -At --no-private run build",
     "generate": "yarn workspace @demo/config-contracts run generate",
-    "validate": "tsx scripts/validate-config.ts"
+    "validate": "tsx scripts/validate-config.ts",
+    "publish:consul": "tsx scripts/publish-to-consul.ts"
   },
   "devDependencies": {
     "@demo/config-contracts": "workspace:^",
     "@types/node": "^22.10.0",
+    "axios": "^1.7.9",
     "tsx": "^4.19.2",
     "typescript": "^5.7.3",
     "zod": "^4.0.0"

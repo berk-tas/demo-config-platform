@@ -493,6 +493,7 @@ __metadata:
   dependencies:
     "@demo/config-contracts": "workspace:^"
     "@types/node": "npm:^22.10.0"
+    axios: "npm:^1.7.9"
     tsx: "npm:^4.19.2"
     typescript: "npm:^5.7.3"
     zod: "npm:^4.0.0"

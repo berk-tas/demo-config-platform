@@ -1,17 +1,17 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
 import { execSync } from "node:child_process";
-import { readFileSync } from "node:fs";
-import { join, resolve } from "node:path";
 import {
-  AssetsSchema,
-  ConfigBundleSchema,
   CONTRACT_VERSION,
   ManifestSchema,
-  WorkspaceSettingsConfigSchema,
-  type ConfigBundle,
   type Manifest,
 } from "@demo/config-contracts";
 import { ConsulClient } from "./consul.client";
+import { loadAndValidate, type DiscoveredFile } from "./values-loader";
+
+export interface PreviewResult {
+  keys: string[];
+  configs: Record<string, unknown>;
+}
 
 @Injectable()
 export class ConfigPublisherService {
@@ -21,35 +21,16 @@ export class ConfigPublisherService {
     @Inject(ConsulClient) private readonly consul: ConsulClient,
   ) {}
 
-  private valuesDir(): string {
-    const base =
-      process.env.VALUES_DIR ?? resolve(__dirname, "../../../../values");
-    return join(base, CONTRACT_VERSION);
+  validate(): { files: DiscoveredFile[]; keys: string[] } {
+    const { files, keys } = loadAndValidate();
+    return { files, keys };
   }
 
-  private readJson(file: string): unknown {
-    const path = join(this.valuesDir(), file);
-    return JSON.parse(readFileSync(path, "utf8"));
-  }
-
-  loadFromDisk(): { assets: unknown; workspaceSettings: unknown } {
-    return {
-      assets: this.readJson("assets.json"),
-      workspaceSettings: this.readJson("workspaceSettings.json"),
-    };
-  }
-
-  validate(): ConfigBundle {
-    const raw = this.loadFromDisk();
-    const assets = AssetsSchema.parse(raw.assets);
-    const workspaceSettings = WorkspaceSettingsConfigSchema.parse(
-      raw.workspaceSettings,
-    );
-    return ConfigBundleSchema.parse({ assets, workspaceSettings });
-  }
-
-  preview(): ConfigBundle {
-    return this.validate();
+  preview(): PreviewResult {
+    const { files, keys } = this.validate();
+    const configs: Record<string, unknown> = {};
+    for (const f of files) configs[f.key] = f.parsed;
+    return { keys, configs };
   }
 
   private gitCommit(): string {
@@ -62,24 +43,24 @@ export class ConfigPublisherService {
   }
 
   async publish(): Promise<Manifest> {
-    const bundle = this.validate();
+    const { files, keys } = this.validate();
     const v = CONTRACT_VERSION;
 
-    await this.consul.putKey(`configs/${v}/assets.json`, bundle.assets);
-    await this.consul.putKey(
-      `configs/${v}/workspaceSettings.json`,
-      bundle.workspaceSettings,
-    );
+    for (const f of files) {
+      await this.consul.putKey(`configs/${v}/${f.filename}`, f.raw);
+    }
 
     const manifest: Manifest = ManifestSchema.parse({
       contractVersion: v,
       publishedAt: new Date().toISOString(),
       gitCommit: this.gitCommit(),
-      keys: ["assets", "workspaceSettings"],
+      keys,
     });
 
     await this.consul.putKey(`configs/${v}/manifest.json`, manifest);
-    this.logger.log(`published configs/${v}/* (manifest rewritten last)`);
+    this.logger.log(
+      `published configs/${v}/* (manifest written last) keys=[${keys.join(",")}]`,
+    );
     return manifest;
   }
 }
