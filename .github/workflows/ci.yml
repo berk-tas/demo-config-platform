@@ -21,6 +21,13 @@ jobs:
         run: yarn build
       - name: Generate
         run: yarn generate
+      - name: Ensure generated files are committed
+        run: |
+          if ! git diff --exit-code; then
+            echo "Generated files are out of date. Run yarn generate and commit the changes."
+            git diff --name-only
+            exit 1
+          fi
       - name: Validate config values
         run: yarn validate
 
@@ -46,6 +53,13 @@ jobs:
         run: yarn build
       - name: Generate
         run: yarn generate
+      - name: Ensure generated files are committed
+        run: |
+          if ! git diff --exit-code; then
+            echo "Generated files are out of date. Run yarn generate and commit the changes."
+            git diff --name-only
+            exit 1
+          fi
       - name: Validate config values
         run: yarn validate
       - name: Publish to staging Consul
@@ -73,6 +87,13 @@ jobs:
         run: yarn build
       - name: Generate
         run: yarn generate
+      - name: Ensure generated files are committed
+        run: |
+          if ! git diff --exit-code; then
+            echo "Generated files are out of date. Run yarn generate and commit the changes."
+            git diff --name-only
+            exit 1
+          fi
       - name: Validate config values
         run: yarn validate
       - name: Publish to prod Consul
