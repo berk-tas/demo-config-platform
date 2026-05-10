@@ -73,7 +73,7 @@ all sibling configs when its index/value changes.
 3. Open a PR — CI runs `yarn validate` only. **Nothing is published.**
 4. Merge to `staging` — CI runs validate + `yarn publish:consul` against
    `STAGING_CONSUL_HTTP_ADDR`.
-5. Merge to `main` — same flow against `PROD_CONSUL_HTTP_ADDR`.
+5. Merge to `master` — same flow against `PROD_CONSUL_HTTP_ADDR`.
 6. `configs/<v>/manifest.json` is written last; consumers reload when it
    changes.
 
@@ -132,7 +132,7 @@ Defined in [.github/workflows/ci.yml](.github/workflows/ci.yml):
 - **Pull request** → `validate` job only (install + build + generate + validate).
 - **Push to `staging`** → `validate` + `publish-staging` (uses
   `STAGING_CONSUL_HTTP_ADDR` / `STAGING_CONSUL_HTTP_TOKEN`).
-- **Push to `main`** → `validate` + `publish-prod` (uses
+- **Push to `master`** → `validate` + `publish-prod` (uses
   `PROD_CONSUL_HTTP_ADDR` / `PROD_CONSUL_HTTP_TOKEN`).
 
 Secrets are scoped through GitHub Environments (`staging`, `production`),

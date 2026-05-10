@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [main, staging]
+    branches: [master, staging]
 
 jobs:
   validate:
@@ -67,7 +67,7 @@ jobs:
 
   publish-prod:
     needs: validate
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     environment: production
     env:
