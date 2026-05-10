@@ -94,5 +94,28 @@
     "decimals": 18,
     "displayDecimals": 6,
     "isHidden": false
+  },
+  {
+    "depositSuspended": false,
+    "withdrawSuspended": false,
+    "symbol": "hmm",
+    "name": "Arbitrum",
+    "icon": "https://assets.coingecko.com/coins/images/16547/large/arb.jpg",
+    "coinGeckoId": "arbitrum",
+    "minimumAmountToSweep": "0.1",
+    "gasLimit": "0",
+    "networks": {
+      "arbitrum": {
+        "chain": "arbitrum",
+        "contractAddress": "0x912CE59144191C1204E64559FE8253a0e49E6548",
+        "decimals": 18
+      }
+    },
+    "isNative": false,
+    "assetAddress": "0x912CE59144191C1204E64559FE8253a0e49E6548",
+    "assetType": "erc20",
+    "decimals": 18,
+    "displayDecimals": 6,
+    "isHidden": false
   }
 ]
