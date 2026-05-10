@@ -34,6 +34,7 @@ __metadata:
     "@octokit/rest": "npm:^19.0.13"
     "@types/node": "npm:^22.10.0"
     axios: "npm:^1.7.9"
+    dotenv: "npm:^16.4.7"
     reflect-metadata: "npm:^0.2.2"
     rxjs: "npm:^7.8.1"
     tsx: "npm:^4.19.2"
@@ -728,6 +729,13 @@ __metadata:
   version: 2.3.1
   resolution: "deprecation@npm:2.3.1"
   checksum: 10c0/23d688ba66b74d09b908c40a76179418acbeeb0bfdf218c8075c58ad8d0c315130cb91aa3dffb623aa3a411a3569ce56c6460de6c8d69071c17fe6dd2442f032
+  languageName: node
+  linkType: hard
+
+"dotenv@npm:^16.4.7":
+  version: 16.6.1
+  resolution: "dotenv@npm:16.6.1"
+  checksum: 10c0/15ce56608326ea0d1d9414a5c8ee6dcf0fffc79d2c16422b4ac2268e7e2d76ff5a572d37ffe747c377de12005f14b3cc22361e79fc7f1061cce81f77d2c973dc
   languageName: node
   linkType: hard
 
